@@ -1,13 +1,11 @@
 #!/bin/bash
 
 if [ -f .update ]; then
-	# rm .update
-	echo hi
+	rm .update
 fi
 
 if [ -f .gitignore ]; then
-	# rm .gitignore
-	echo hi
+	rm .gitignore
 fi
 
 FILES=$(curl "https://raw.githubusercontent.com/codeBodger/Drops/main/.update")
