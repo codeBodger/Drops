@@ -19,15 +19,9 @@ URL bar.
 then type a password when prompted.  
 - If you forget your password, you can simply delete `password.hash` and run `./pswd.sh`
 again.
-## Reasons to Have a Password
-- Anyone can run your version/installation of this program.  This means that they could
-theoretically delete all of your data.
-- A password prevents people from doing this.  
-- Because they cannot directly edit or run any of the files, they can't change, delete, or
-create a password.
 ## Using Your Password
-- If you have previously set a password, you must type it in before using the app.  If you
-don't, you will still be able to use the app, but your data will not be saved.
+- Without a password, you cannot use the app.
+- You must type your password in before using the app.
 - You will stay logged in until you press log out in the main menue.  
 
 # Feature Requests, Bug Reports, etc.

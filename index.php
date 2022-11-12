@@ -1671,6 +1671,9 @@
 			$authorised = ("$pswdhash  -\n" == "$pswdfilehash");
 			fclose($pswdfile);
 		}
+		else if(file_exists(".update")) {
+			$authorised = false;
+		}
 		if($authorised) {
 			$datafile = fopen("data.json", "w") or die("Unable to open file!");
 			$data = $_POST["data"];
