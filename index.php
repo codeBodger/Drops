@@ -1475,12 +1475,9 @@
 		<br><br>
 		
 		<h3>To do:</h3>
-		<h4>GUI:</h4>
-		<h6>Edit a group</h6>
-		<h6>Sylables</h6>
-		<h6>Boggle</h6>
-		<h4>Other:</h4>
-		<h6>Github</h6>
+		<h5>Edit a group</h5>
+		<h5>Sylables</h5>
+		<h5>Boggle</h5>
 
 		<script>(async function () {
 			if (localStorage.getItem("drops-password")) {
