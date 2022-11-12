@@ -1480,7 +1480,6 @@
 		<h6>Sylables</h6>
 		<h6>Boggle</h6>
 		<h4>Other:</h4>
-		<h6>Updates</h6>
 		<h6>Github</h6>
 
 		<script>(async function () {

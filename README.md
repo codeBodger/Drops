@@ -33,4 +33,5 @@ don't, you will still be able to use the app, but your data will not be saved.
 
 # Updates
 - To update the app to the latest version, simply type `./update.sh` into the "Shell" and
-press enter.  
+press enter.
+- It is recommended to do this fairly frequently, about once per month.  
