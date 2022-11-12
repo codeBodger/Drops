@@ -3,7 +3,7 @@ Version v1.0-alpha1.0
 # Installing the App
 1. To install the app for yourself, you will first need to create a
 [repl.it](https://repl.it) account.  If you allready have one, you can skip this step.
-2. Then, go to [this link](https://replit.com/@RowanAckermanSc/Drops-2) and click the blue
+2. Then, go to [this link](https://replit.com/@RowanAckerman/Drops) and click the blue
 `Fork Repl` button on the right side of the screen. This will make a copy of the app in
 your account.  You can now run the app anywhere, you just need to log in to your repl.it
 account.  
