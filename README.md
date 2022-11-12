@@ -31,7 +31,10 @@ don't, you will still be able to use the app, but your data will not be saved.
 - You will stay logged in until you press log out in the main menue.  
 
 # Feature Requests, Bug Reports, etc.
-- Github
+- Please request features, report bugs, etc in the
+[issues tab](https://github.com/codeBodger/Drops/issues) for the
+[associated GitHub repository](https://github.com/codeBodger/Drops) for this program.  You will
+need to create a GitHub account to do this.  
 
 # Updates
 - To update the app to the latest version, simply type `./update.sh` into the "Shell" and
