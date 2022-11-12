@@ -1,4 +1,4 @@
-Version a1.0
+Version v1.0-alpha1.0
 
 # Installing the App
 1. To install the app for yourself, you will first need to create a
