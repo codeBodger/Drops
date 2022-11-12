@@ -1,3 +1,5 @@
+Version a1.0
+
 # Installing the App
 1. To install the app for yourself, you will first need to create a
 [repl.it](https://repl.it) account.  If you allready have one, you can skip this step.
