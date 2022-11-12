@@ -10,5 +10,5 @@ fi
 
 FILES=$(curl "https://raw.githubusercontent.com/codeBodger/Drops/main/.update")
 for FILE in $FILES; do
-	cat <<< $(curl "https://raw.githubusercontent.com/codeBodger/Drops/main/$FILE") > ".$FILE"
+	cat <<< $(curl "https://raw.githubusercontent.com/codeBodger/Drops/main/$FILE") > "$FILE"
 done
