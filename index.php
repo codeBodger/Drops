@@ -126,7 +126,7 @@
 			URL.revokeObjectURL(a.href)
 		}
 
-		function serverSave(saveData, password) {
+		function serverSave() {
 			fetch("index.php", {
 				method: "POST",
 				headers: {
@@ -134,6 +134,11 @@
 				},
 				body: `data=${localStorage.getItem("drops-data")}&pswd=${localStorage.getItem("drops-password")}`,
 			});
+		}
+
+		function save() {
+			localStorage.setItem("drops-data", "[ " + getVar("savedGroups") + " ]");
+			serverSave();
 		}
 
 		async function checkPassword() {
@@ -1039,7 +1044,7 @@
 				}
 			}
 			setVar("savedGroups", JSON.stringify(groups).slice(1, -1));
-			localStorage.setItem("drops-data", "[ " + getVar("savedGroups") + " ]");
+			save();
 		}
 		
 		function FinishStudy() { location.reload(); }
@@ -1099,7 +1104,7 @@
 			let comma = savedGroups.length != 0 ? ", " : "";
 			setVar("groups", (savedGroups + comma + toJSON).replace(/'/g, "’"));
 			
-			localStorage.setItem("drops-data", '[ ' + getVar("groups") + ' ]');
+			save();
 		}
 		
 		function SaveSet() {
@@ -1224,7 +1229,7 @@
 			let comma = savedGroups.length != 0 ? ", " : "";
 			setVar("groups", (savedGroups + comma + newGroup).replace(/'/g, "’"));
 			setVar("savedGroups", getVar("groups"));
-			localStorage.setItem("drops-data", '[ ' + getVar("savedGroups") + ' ]');
+			save();
 			
 			location.reload();
 		}
@@ -1324,7 +1329,7 @@
 					let savedGroups = getVar("savedGroups");
 					let comma = savedGroups.length != 0 ? ", " : "";
 					setVar("groups", (savedGroups + comma + lines.join("\n")).replace(/'/g, "’"));
-					localStorage.setItem("drops-data", '[ ' + getVar("groups") + ' ]');
+					save();
 				};
 				
 				reader.onerror = (e) => alert(e.target.error.name);
@@ -1380,7 +1385,7 @@
 			let comma = savedGroups.length != 0 ? ", " : "";
 			setVar("groups", (savedGroups + comma + newGroup).replace(/'/g, "’"));
 			setVar("savedGroups", getVar("groups"));
-			localStorage.setItem("drops-data", '[ ' + getVar("savedGroups") + ' ]');
+			save();
 			
 			location.reload();
 		}
@@ -1420,7 +1425,7 @@
 		function FinishDelete() {
 			if (confirm("Are you sure you want to delete group \"" + getVar("deleteGroupName") + "\"?  This action cannot be undone.  ")) {
 				setVar("savedGroups", getVar("groups"));
-				localStorage.setItem("drops-data", '[ ' + getVar("savedGroups") + " ]");
+				save();
 			}
 			
 			location.reload();
