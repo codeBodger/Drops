@@ -152,13 +152,12 @@
 	</script>
 
 	<!-- startup -->
-	<script>
-		fetch("data.json")
+	<script>(async function() {
+		await fetch("data.json")
 			.then((response) => response.json())
-			.then((data) => localStorage.setItem("drops-data", data));
-
+			.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
 		setVar("savedGroups", localStorage.getItem("drops-data").slice(2, -2));
-	</script>
+	})()</script>
 
 	<!-- set, group, and term functions -->
 	<script>
