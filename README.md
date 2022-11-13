@@ -1,4 +1,4 @@
-Version v1.0-alpha1.0
+Version v1.0.0-alpha
 
 # Installing the App
 1. To install the app for yourself, you will first need to create a
@@ -33,4 +33,8 @@ need to create a GitHub account to do this.
 # Updates
 - To update the app to the latest version, simply type `./update.sh` into the "Shell" and
 press enter.
-- It is recommended to do this fairly frequently, about once per month.  
+- It is recommended to do this fairly frequently, about once per month.
+
+# Releases
+- If you are using a release from GitHub, good luck.  You'll need to be able to
+run PHP and you'll need to make the .sh files executable.  
