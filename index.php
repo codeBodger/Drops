@@ -1,6 +1,6 @@
 <html style="height: 100%;">
 <head>
-	<title>Drops</title>
+	<title>Quiz</title>
 		
 	<style>
 		div {
@@ -132,7 +132,7 @@
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 				},
-				body: `data=${saveData}&pswd=${password}`,
+				body: `data=${localStorage.getItem("drops-data")}&pswd=${localStorage.getItem("drops-password")}`,
 			});
 		}
 
