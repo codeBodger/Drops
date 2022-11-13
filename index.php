@@ -1665,18 +1665,14 @@
 
 <?php
 	if(isset($_POST["data"])) {
-		$authorised = true;
+		$authorised = false;
 		if(file_exists("password.hash")) {
-			$authorised = false;
 			$pswdfile = fopen("password.hash", "r") or die("Unable to open file!");
 			$pswdfilehash = fread($pswdfile,filesize("password.hash"));
 			$pswd = $_POST["pswd"];
 			$pswdhash = hash("sha256", "$pswd\n");
 			$authorised = ("$pswdhash  -\n" == "$pswdfilehash");
 			fclose($pswdfile);
-		}
-		else if(file_exists(".update")) {
-			$authorised = false;
 		}
 		if($authorised) {
 			$datafile = fopen("data.json", "w") or die("Unable to open file!");
@@ -1694,6 +1690,9 @@
 			$pswdhash = hash("sha256", "$pswd\n");
 			echo ("$pswdhash  -\n" == "$pswdfilehash");
 			fclose($pswdfile);
+		}
+		else {
+			echo false;
 		}
 	}
 		
