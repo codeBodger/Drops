@@ -161,7 +161,7 @@
 		await fetch("data.json")
 			.then((response) => response.json())
 			.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
-		setVar("savedGroups", localStorage.getItem("drops-data").slice(2, -2));
+		setVar("savedGroups", localStorage.getItem("drops-data").slice(1, -1));
 	})()</script>
 
 	<!-- set, group, and term functions -->
