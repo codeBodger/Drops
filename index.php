@@ -1713,7 +1713,7 @@
 				fwrite($keyHashFile, "$newKeyHash\n");
 				echo $newKey;
 			}
-			else { echo "haha" }
+			else { echo "haha"; }
 			fclose($pswdfile);
 		}
 		else {
@@ -1730,11 +1730,11 @@
 		unset($keyFileHashList[array_search($keyHash, $keyFileHashList)]);
 		fclose($keyHashFile);
 		$keyHashFile = fopen("keys.hash", "w") or die("Unable to open file!");
-		fwrite($keyHashFile, "")
+		fwrite($keyHashFile, "");
 		fclose($keyHashFile);
 		$keyHashFile = fopen("keys.hash", "a") or die("Unable to open file!");
 		foreach ($keyFileHashList as $keyFileHash) {
-			fwrite($keyHashFile, $keyFileHash)
+			fwrite($keyHashFile, $keyFileHash);
 		}
 		fclose($keyHashFile);
 	}
