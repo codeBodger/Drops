@@ -85,7 +85,6 @@
 			{ name: "MULTIPLE_CHOICE", weight: 1.2, probFunc: function(x) { return Math.max(1.00000005**-x / 4 / (1+Math.exp((3500000-x)/200000)), (1.0000001**-x - 1.0000001**-4500000) / 3); } },
 			{ name: "MATCHING", weight: 1.15, probFunc: function(x) { return Math.max((1.0000001**-x - 1.0000001**-4500000), 0); } },
 			{ name: "SYLABLES", weight: 1.3, probFunc: function(x) { return Math.max(1.0000001**-x - 1.0000001**-4000000, 0); } },
-			{ name: "BOGGLE", weight: 1.5, probFunc: function(x) { return Math.max((1.0000001**-x - 1.0000001**-4900000) / 7, 0); } },
 			{ name: "LETTERS", weight: 1.7, probFunc: function(x) { return Math.max(1.0000001**-x - 1.0000001**-4500000, 0); } },
 			{ name: "TEXT", weight: 2, probFunc: function(x) { return Math.max(1.0000005**-x - 1.0000005**-3500000, 0); } }
 		];
@@ -472,8 +471,6 @@
 				
 				case "SYLABLES":
 					document.getElementsByTagName("body")[0].style.backgroundColor = '#d10578';
-				case "BOGGLE":
-					document.getElementsByTagName("body")[0].style.backgroundColor = '#227ad3';
 				case "LETTERS":
 					document.getElementsByTagName("body")[0].style.backgroundColor = '#ba03fc';
 					
@@ -1481,7 +1478,7 @@
 		<h3>To do:</h3>
 		<h5>Edit a group</h5>
 		<h5>Sylables</h5>
-		<h5>Boggle</h5>
+		<h5>Update message</h5>
 
 		<script>(async function () {
 			if (localStorage.getItem("drops-password")) {
