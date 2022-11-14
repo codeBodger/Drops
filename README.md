@@ -1,12 +1,14 @@
-Version v1.0.0-alpha
+Version v1.0.0-alpha.1 Mon 14 Nov 2022 02:06:46 AM UTC
 
 # Installing the App
 1. To install the app for yourself, you will first need to create a
 [repl.it](https://repl.it) account.  If you allready have one, you can skip this step.
 2. Then, go to [this link](https://replit.com/@RowanAckerman/Quiz) and click the blue
 `Fork Repl` button on the right side of the screen. This will make a copy of the app in
-your account.  You can now run the app anywhere, you just need to log in to your repl.it
-account.  
+your account.
+3. Once you make a password (see __Passwords__ below), you will be able to use the app
+anywhere, you just need to log in to your repl.it account and run it
+(see __Running the App__ below).
 
 # Running the App
 - To run the app, simply hit the green `run` button at the top of the screen.  
@@ -15,8 +17,11 @@ URL bar.
 
 # Passwords
 ## Creating and Resetting a Password
-- To create or change your password, type `./pswd.sh` into the "Shell" and press enter;
-then type a password when prompted.  
+1. To create or change your password, click the "Shell" tab in the right hand pannel.
+2. Type `./pswd.sh` and press enter.
+3. Type you current password as prompted and press enter (if you don't have one, you won't
+be prompted to do this).
+5. Then type a new password twice as prompted.  
 - If you forget your password, you can simply delete `password.hash` and run `./pswd.sh`
 again.
 ## Using Your Password
@@ -27,12 +32,12 @@ again.
 # Feature Requests, Bug Reports, etc.
 - Please request features, report bugs, etc in the
 [issues tab](https://github.com/codeBodger/Quiz/issues) for the
-[associated GitHub repository](https://github.com/codeBodger/Quiz) for this program.  You will
-need to create a GitHub account to do this.  
+[associated GitHub repository](https://github.com/codeBodger/Quiz) for this program.  You
+will need to create a GitHub account to do this.  
 
 # Updates
-- To update the app to the latest version, simply type `./update.sh` into the "Shell" and
-press enter.
+1. To update the app to the latest version, click the "Shell" tab in the right hand pannel.
+2. Then type  `./update.sh` and press enter.
 - It is recommended to do this fairly frequently, about once per month.
 
 # Releases
