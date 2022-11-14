@@ -157,6 +157,18 @@
 
 	<!-- startup -->
 	<script>(async function() {
+		var localREADME;
+		await fetch("README.md")
+			.then((response) => response.text())
+			.then((data) => localREADME = data);
+		var githubREADME;
+		await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/README.md")
+			.then((response) => response.text())
+			.then((data) => githubREADME = data);
+
+		if (localREADME != githubREADME)
+			alert("There's a new updateavailiable!  Check README.md for how to get it!");
+		
 		await fetch("data.json")
 			.then((response) => response.json())
 			.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
