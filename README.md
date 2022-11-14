@@ -1,4 +1,4 @@
-Version v1.0.0-alpha.1 2022-11-14 14:06:14 UTC
+Version v1.0.0-alpha.1 2022-11-14 16:39:31 UTC
 
 # Installing the App
 1. To install the app for yourself, you will first need to create a
@@ -38,6 +38,8 @@ will need to create a GitHub account to do this.
 # Updates
 1. To update the app to the latest version, click the "Shell" tab in the right hand pannel.
 2. Then type  `./update.sh` and press enter.
+3. When prompted, type the number corresponding to the version you want to install.  For
+now, you should choose alpha, unless you know what you're doing.  
 - When there's a new update, you'll get a message when you load the web page.  
 
 # Releases
