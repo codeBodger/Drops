@@ -131,7 +131,7 @@
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 				},
-				body: `data=${localStorage.getItem("drops-data")}&pswd=${localStorage.getItem("drops-password")}`,
+				body: `data=${localStorage.getItem("drops-data")}&key=${localStorage.getItem("drops-password")}`,
 			});
 		}
 
@@ -140,18 +140,26 @@
 			serverSave();
 		}
 
-		async function checkPassword() {
-			var out = 23;
+		async function addSecureKey(password) {
 			await fetch("index.php", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 				},
-				body: `pswdCheck=${localStorage.getItem("drops-password")}`,
+				body: `pswdCheck=${password}`,
 			})
-			.then((response) => response.text())
-			.then((res) => (out = res.split("\n").slice(-1)[0]));
-			return out;
+				.then((response) => response.text())
+				.then((res) => localStorage.setItem("drops-password", res));
+		}
+
+		async function removeSecureKey() {
+			await fetch("index.php", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+				},
+				body: `rmKey=${localStorage.getItem("drops-password")}`,
+			});
 		}
 	</script>
 
@@ -1450,13 +1458,14 @@
 			document.getElementById("login").style.visibility = 'visible';
 		}
 
-		function FinishLogin() {
+		async function FinishLogin() {
 			let password = document.getElementById("login").getElementsByTagName("input")[0].value;
-			localStorage.setItem("drops-password", password);
+			await addSecureKey(password);
 			location.reload();
 		}
 
-		function Logout() {
+		async function Logout() {
+			await removeSecureKey();
 			localStorage.removeItem("drops-password");
 			location.reload();
 		}
@@ -1492,10 +1501,9 @@
 		<h5>Sylables</h5>
 		<h5>Update message</h5>
 
-		<script>(async function () {
+		<script>
 			if (localStorage.getItem("drops-password")) {
-				let checkPswd = await checkPassword();
-				if (checkPswd) {
+				if (localStorage.getItem("drops-password") == "haha") {
 					document.getElementById("loginButton" ).remove();
 				}
 				else {
@@ -1514,7 +1522,7 @@
 	
 			document.getElementById("loading").remove();
 			document.getElementById("mainMenue").style.visibility = 'visible';
-		})()</script>
+		</script>
 	</div>
 	
 	
@@ -1675,34 +1683,60 @@
 <?php
 	if(isset($_POST["data"])) {
 		$authorised = false;
-		if(file_exists("password.hash")) {
-			$pswdfile = fopen("password.hash", "r") or die("Unable to open file!");
-			$pswdfilehash = fread($pswdfile,filesize("password.hash"));
-			$pswd = $_POST["pswd"];
-			$pswdhash = hash("sha256", "$pswd\n");
-			$authorised = ("$pswdhash  -\n" == "$pswdfilehash");
-			fclose($pswdfile);
+		$keyHashFile = fopen("keys.hash", "r") or die("Unable to open file!");
+		$keyFileHashList = explode("\n", fread($keyHashFile,filesize("keys.hash")));
+		$key = $_POST["key"];
+		$keyHash = hash("sha256", "$key");
+		foreach ($keyFileHashList as $keyFileHash) {
+			$authorised = ($keyHash == $keyFileHash);
+			if($authorised) {
+				$datafile = fopen("data.json", "w") or die("Unable to open file!");
+				$data = $_POST["data"];
+				fwrite($datafile, $data);
+				fclose($datafile);
+				break;
+			}
 		}
-		if($authorised) {
-			$datafile = fopen("data.json", "w") or die("Unable to open file!");
-			$data = $_POST["data"];
-			fwrite($datafile, $data);
-			fclose($datafile);
-		}
+		fclose($keyHashFile);
 	}
 
 	if(isset($_POST["pswdCheck"])) {
+		$keyHashFile = fopen("keys.hash", "a") or die("Unable to open file!");
+		$newKey = hash("sha256", sprintf("%d%d%d%d", rand(), rand(), rand(), rand()));
+		$newKeyHash = hash("sha256", $newKey);
 		if(file_exists("password.hash")) {
 			$pswdfile = fopen("password.hash", "r") or die("Unable to open file!");
 			$pswdfilehash = fread($pswdfile,filesize("password.hash"));
 			$pswd = $_POST["pswdCheck"];
 			$pswdhash = hash("sha256", "$pswd\n");
-			echo ("$pswdhash  -\n" == "$pswdfilehash");
+			if ("$pswdhash  -\n" == "$pswdfilehash") {
+				fwrite($keyHashFile, "$newKeyHash\n");
+				echo $newKey;
+			}
+			else { echo "haha" }
 			fclose($pswdfile);
 		}
 		else {
-			echo false;
+			echo "haha";
 		}
+		fclose($keyHashFile);
+	}
+
+	if(isset($_POST["rmKey"])) {
+		$keyHashFile = fopen("keys.hash", "r") or die("Unable to open file!");
+		$keyFileHashList = explode("\n", fread($keyHashFile,filesize("keys.hash")));
+		$key = $_POST["rmKey"];
+		$keyHash = hash("sha256", $key);
+		unset($keyFileHashList[array_search($keyHash, $keyFileHashList)]);
+		fclose($keyHashFile);
+		$keyHashFile = fopen("keys.hash", "w") or die("Unable to open file!");
+		fwrite($keyHashFile, "")
+		fclose($keyHashFile);
+		$keyHashFile = fopen("keys.hash", "a") or die("Unable to open file!");
+		foreach ($keyFileHashList as $keyFileHash) {
+			fwrite($keyHashFile, $keyFileHash)
+		}
+		fclose($keyHashFile);
 	}
 		
 	// function console_echo($str) {
