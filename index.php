@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-15 17:40:51 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-15 20:55:11 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -166,27 +166,27 @@
 			local  = local .split(" ")[1];
 			local  = local .split([/[.-]/]);
 			github = github.split([/[.-]/]);
-			if (local[0] <  github[0]) { return "T"; }
+			if (local[0] <  github[0]) { return true; }
 			if (local[0] == github[0]) {
-				if (local[1] <  github[1]) { return "T"; }
+				if (local[1] <  github[1]) { return true; }
 				if (local[1] == github[1]) {
-					if (local[2] <  github[2]) { return "T"; }
+					if (local[2] <  github[2]) { return true; }
 					if (local[2] == github[2]) {
-						if (local[3] && !github[3]) { return "T"; }
-						if (local[3] <   github[3]) { return "T"; }
+						if (local[3] && !github[3]) { return true; }
+						if (local[3] <   github[3]) { return true; }
 						if (local[3] ==  github[3]) {
-							if (local[4] <  github[4]) { return "T"; }
+							if (local[4] <  github[4]) { return true; }
 						}
 					}
 				}
 			}
-			return "F";
+			return false;
 		}
 	</script>
 
 	<!-- startup -->
 	<script>(async function() {
-		var localVersion = document.getElementsByTagName("head").getAttribute("data-version");
+		var localVersion = document.getElementsByTagName("head")[0].getAttribute("data-version");
 		var githubVersion;
 		await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/README.md")
 			.then((response) => response.text())
@@ -197,15 +197,49 @@
 			.then((response) => response.text())
 			.then((data) => releases = data.split("\n"));
 	
-		setVar("updates-unstable", localVersion != githubVersion ? "T" : "F");
-		setVar("updates-alpha",    versionCompare(localVersion, releases[1]));
-		setVar("updates-beta",     versionCompare(localVersion, releases[2]));
-		setVar("updates-full",     versionCompare(localVersion, releases[3]));
+		if (localVersion != githubVersion)
+			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+				`<h4>There's a new unstable release!</h4>
+	 <h3>Check README.md for help about updates.</h3>`
+			);
+		if (versionCompare(localVersion, releases[1] || ""))
+			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+				`<h4>There's a new alpha release!</h4>`
+			);
+		if (versionCompare(localVersion, releases[2] || ""))
+			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+				`<h4>There's a new beta release!</h4>`
+			);
+		if (versionCompare(localVersion, releases[3] || ""))
+			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+				`<h4>There's a new full release!</h4>`
+			);
 		
+		if (localStorage.getItem("drops-password")) {
+			if (localStorage.getItem("drops-password") != "haha") {
+				document.getElementById("loginButton" ).remove();
+			}
+			else {
+				document.getElementById("loginButton" ).style.width = '44.5%';
+				document.getElementById("loginButton" ).style.color = 'red';
+				document.getElementById("loginButton" ).style.backgroundColor = 'ffaaaa';
+				document.getElementById("logoutButton").style.width = '44.5%';
+				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+					`<h3 style="color: red;">Login Failed!!<h3>`
+				);
+			}
+		}
+		else {
+			document.getElementById("logoutButton").remove();
+		}
+
 		await fetch("data.json")
 			.then((response) => response.json())
 			.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
 		setVar("savedGroups", localStorage.getItem("drops-data").slice(1, -1));
+
+		document.getElementById("loading").remove();
+		document.getElementById("mainMenue").style.visibility = 'visible';
 	})()</script>
 
 	<!-- set, group, and term functions -->
@@ -1524,48 +1558,7 @@
 		<h3>To do:</h3>
 		<h5>Edit a group</h5>
 		<h5>Sylables</h5>
-		<h5>Update message</h5>
 
-		<script>
-			if (getVar("updates-unstable") == "T")
-				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-					`<h3>There's a new unstable release!</h3>
-		 <h2>Check README.md for help about updates.</h2>`
-				);
-			if (getVar("updates-alpha") == "T")
-				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-					`<h3>There's a new alpha release!</h3>`
-				);
-			if (getVar("updates-beta") == "T")
-				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-					`<h3>There's a new beta release!</h3>`
-				);
-			if (getVar("updates-full") == "T")
-				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-					`<h3>There's a new full release!</h3>`
-				);
-			
-			if (localStorage.getItem("drops-password")) {
-				if (localStorage.getItem("drops-password") != "haha") {
-					document.getElementById("loginButton" ).remove();
-				}
-				else {
-					document.getElementById("loginButton" ).style.width = '44.5%';
-					document.getElementById("loginButton" ).style.color = 'red';
-					document.getElementById("loginButton" ).style.backgroundColor = 'ffaaaa';
-					document.getElementById("logoutButton").style.width = '44.5%';
-					document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-						`<h3 style="color: red;">Login Failed!!<h3>`
-					);
-				}
-			}
-			else {
-				document.getElementById("logoutButton").remove();
-			}
-	
-			document.getElementById("loading").remove();
-			document.getElementById("mainMenue").style.visibility = 'visible';
-		</script>
 	</div>
 	
 	
