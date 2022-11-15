@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-15 16:45:26 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-15 17:40:51 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -163,6 +163,7 @@
 		}
 
 		function versionCompare(local, github) {
+			local  = local .split(" ")[1];
 			local  = local .split([/[.-]/]);
 			github = github.split([/[.-]/]);
 			if (local[0] <  github[0]) { return "T"; }
