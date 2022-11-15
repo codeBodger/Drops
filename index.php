@@ -1,7 +1,7 @@
 <html style="height: 100%;">
-<head>
+<head data-version="Version v1.0.0-alpha.4 2022-11-15 16:45:26 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
-		
+
 	<style>
 		div {
 			width: 100%;
@@ -161,21 +161,45 @@
 				body: `rmKey=${localStorage.getItem("drops-password")}`,
 			});
 		}
+
+		function versionCompare(local, github) {
+			local  = local .split([/[.-]/]);
+			github = github.split([/[.-]/]);
+			if (local[0] <  github[0]) { return "T"; }
+			if (local[0] == github[0]) {
+				if (local[1] <  github[1]) { return "T"; }
+				if (local[1] == github[1]) {
+					if (local[2] <  github[2]) { return "T"; }
+					if (local[2] == github[2]) {
+						if (local[3] && !github[3]) { return "T"; }
+						if (local[3] <   github[3]) { return "T"; }
+						if (local[3] ==  github[3]) {
+							if (local[4] <  github[4]) { return "T"; }
+						}
+					}
+				}
+			}
+			return "F";
+		}
 	</script>
 
 	<!-- startup -->
 	<script>(async function() {
-		var localREADME;
-		await fetch("README.md")
-			.then((response) => response.text())
-			.then((data) => localREADME = data);
-		var githubREADME;
+		var localVersion = document.getElementsByTagName("head").getAttribute("data-version");
+		var githubVersion;
 		await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/README.md")
 			.then((response) => response.text())
-			.then((data) => githubREADME = data);
+			.then((data) => githubVersion = data.split("\n")[0]);
 
-		if (localREADME != githubREADME)
-			alert("There's a new updateavailiable!  Check README.md for how to get it!");
+		var releases;
+		await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/.releases")
+			.then((response) => response.text())
+			.then((data) => releases = data.split("\n"));
+	
+		setVar("updates-unstable", localVersion != githubVersion ? "T" : "F");
+		setVar("updates-alpha",    versionCompare(localVersion, releases[1]));
+		setVar("updates-beta",     versionCompare(localVersion, releases[2]));
+		setVar("updates-full",     versionCompare(localVersion, releases[3]));
 		
 		await fetch("data.json")
 			.then((response) => response.json())
@@ -1502,6 +1526,24 @@
 		<h5>Update message</h5>
 
 		<script>
+			if (getVar("updates-unstable") == "T")
+				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+					`<h3>There's a new unstable release!</h3>
+		 <h2>Check README.md for help about updates.</h2>`
+				);
+			if (getVar("updates-alpha") == "T")
+				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+					`<h3>There's a new alpha release!</h3>`
+				);
+			if (getVar("updates-beta") == "T")
+				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+					`<h3>There's a new beta release!</h3>`
+				);
+			if (getVar("updates-full") == "T")
+				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
+					`<h3>There's a new full release!</h3>`
+				);
+			
 			if (localStorage.getItem("drops-password")) {
 				if (localStorage.getItem("drops-password") != "haha") {
 					document.getElementById("loginButton" ).remove();
