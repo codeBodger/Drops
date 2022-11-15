@@ -149,7 +149,7 @@
 				body: `pswdCheck=${password}`,
 			})
 				.then((response) => response.text())
-				.then((res) => localStorage.setItem("drops-password", res));
+				.then((res) => localStorage.setItem("drops-password", res.split("\n").slice(-1)[0]));
 		}
 
 		async function removeSecureKey() {
@@ -1503,7 +1503,7 @@
 
 		<script>
 			if (localStorage.getItem("drops-password")) {
-				if (localStorage.getItem("drops-password") == "haha") {
+				if (localStorage.getItem("drops-password") != "haha") {
 					document.getElementById("loginButton" ).remove();
 				}
 				else {
