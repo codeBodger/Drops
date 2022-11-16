@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-15 22:29:33 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-16 13:30:12 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -103,7 +103,6 @@
 		
 		function setVar(name, value) {
 			document.getElementById("variables").setAttribute(name, value);
-			// nothing here, just making the function colapseable
 		}
 		
 		function saveElementState(element) {
@@ -246,7 +245,6 @@
 	<script>
 		function groupLength(group) {
 			return group.sets.length;
-			// Just making this collapseable
 		}
 		
 		function groupUnlocked(group) {
@@ -292,7 +290,6 @@
 		
 		function setLength(set) {
 			return set.terms.length;
-			// Just making this collapseable
 		}
 		
 		function termMastery(term) { //I might want to change these parameters
