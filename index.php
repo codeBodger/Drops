@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-16 13:30:12 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-23 22:32:00 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -81,12 +81,32 @@
 		const lettersLetters = 7;
 		
 		const modeList = [
-			{ name: "TRUE_FALSE", weight: 1.1, probFunc: function(x) { return Math.max(1.0000001**-x - 1.0000001**-4900000, 0) + Math.max(1.0000001**x - 1.0000001**5100000, 0); } },
-			{ name: "MULTIPLE_CHOICE", weight: 1.2, probFunc: function(x) { return Math.max(1.00000005**-x / 4 / (1+Math.exp((3500000-x)/200000)), (1.0000001**-x - 1.0000001**-4500000) / 3); } },
-			{ name: "MATCHING", weight: 1.15, probFunc: function(x) { return Math.max((1.0000001**-x - 1.0000001**-4500000), 0); } },
-			{ name: "SYLABLES", weight: 1.3, probFunc: function(x) { return Math.max(1.0000001**-x - 1.0000001**-4000000, 0); } },
-			{ name: "LETTERS", weight: 1.7, probFunc: function(x) { return Math.max(1.0000001**-x - 1.0000001**-4500000, 0); } },
-			{ name: "TEXT", weight: 2, probFunc: function(x) { return Math.max(1.0000005**-x - 1.0000005**-3500000, 0); } }
+			{ name: "TRUE_FALSE", weight: 1.1, probFunc: function(x) {
+				if (x <= 4900000) return (0.0000118792037493*1.00000237726**(1.00002886058*x) + 0.0484599092371) / (1 + Math.exp((x-4280000)/139000));
+				if (x < 5100000) return 0;
+				return x/10000000 - .5;
+			} },
+			{ name: "MULTIPLE_CHOICE", weight: 1.2, probFunc: function(x) {
+				return (0.00143777949286*1.00000129498**(0.999999999351*x) + 0.068712710965) / (1 + Math.exp((x-5400000)/267000))
+					+ Math.max((-x/10000000 + 1.5) / (1 + Math.exp((5400000-x)/267000)), 0);
+			} },
+			{ name: "MATCHING", weight: 1.15, probFunc: function(x) {
+				if (x <= 4800000) return 4* (0.00169055154464*1.00000126005**(1.00000036691*x) + 0.046476040631) / (1 + Math.exp((x-4370000)/139000));
+				return 0;
+			} },
+			{ name: "SYLABLES", weight: 1.3, probFunc: function(x) {
+				if (x <= 4500000) return (0.0512206359603*1.00000092489**(0.697445260373*x) + 0.0344280040496) / (1 + Math.exp((x-3900000)/139000));
+				return 0;
+			} },
+			{ name: "LETTERS", weight: 1.7, probFunc: function(x) {
+				if (x <= 3700000) return (-0.248136529594*1.00000332632**(-0.375173221214*x)+0.327403990272) / (1 + Math.exp((x-3900000)/300000))
+					- Math.exp(-((x-3120000)/600000)**2) * (x-3120000) / 1700000;
+				return 0;
+			} },
+			{ name: "TEXT", weight: 2, probFunc: function(x) {
+				if (x <= 2900000) return (145855.62689/(x+349629.950477) + 0.348277639381) / (1 + Math.exp((x-2537083.91759)/204000));
+				return 0;
+			} }
 		];
 		function getModeWeight(mode) {
 			for (let modeObj of modeList)
