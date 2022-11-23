@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-23 22:32:00 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-23 22:39:59 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -100,7 +100,7 @@
 			} },
 			{ name: "LETTERS", weight: 1.7, probFunc: function(x) {
 				if (x <= 3700000) return (-0.248136529594*1.00000332632**(-0.375173221214*x)+0.327403990272) / (1 + Math.exp((x-3900000)/300000))
-					- Math.exp(-((x-3120000)/600000)**2) * (x-3120000) / 1700000;
+					- Math.exp(-(((x-3120000)/600000)**2)) * (x-3120000) / 1700000;
 				return 0;
 			} },
 			{ name: "TEXT", weight: 2, probFunc: function(x) {
