@@ -1,5 +1,5 @@
-<html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-24 17:03:53 UTC"> <!-- set by pre-commit -->
+<html>
+<head data-version="Version v1.0.0-alpha.4 2022-11-24 18:11:28 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -35,6 +35,11 @@
 			width: 95%;
 			margin: 10px 2.5%;
 			padding: 0px;
+		}
+
+		textarea {
+			width: 100%;
+			height: 20em;
 		}
 		
 		h1 {
@@ -75,7 +80,7 @@
 	
 	<script src="https://textfit.strml.net/examples/textFit.js"></script>
 </head>
-<body style="height: 100%;">
+<body>
 
 	<div id="variables"></div>
 
@@ -1651,17 +1656,19 @@
 		<script> saveElementState("editAsText"); </script>
 	</div>
 	
-	<div id="editingAsText" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 100%">
+	<div id="editingAsText" style="visibility: hidden; position: absolute; top: 0px; left: 0px;">
 		<h1>Edit a Group as Text:</h1>
+
+		<div style="width: 95%; margin: auto;">
+			<h3 style="text-align: left;">Copy terms from EXCEL or similar program.  </h3>
+			<h5 style="text-align: left;">Be sure that columns are separated by tabs and rows by retuns.  </h5>
+			<h5 style="text-align: left;">Add the name of the group as the first line.  </h5>
+			<h5 style="text-align: left;">Add the name of each set before its terms.  </h5>
+			<h5 style="text-align: left;">Leave an additional new line after each set (before the next set's name).  </h5>
 		
-		<h3 style="text-align: left;">Copy terms from EXCEL or similar program.  </h3>
-		<h5 style="text-align: left;">Be sure that columns are separated by tabs and rows by retuns.  </h5>
-		<h5 style="text-align: left;">Add the name of the group as the first line.  </h5>
-		<h5 style="text-align: left;">Add the name of each set before its terms.  </h5>
-		<h5 style="text-align: left;">Leave an additional new line after each set (before the next set's name).  </h5>
-		
-		<textarea style="width: 100%; height: 40%">
-		</textarea>
+			<textarea>
+			</textarea>
+		</div>
 		
 		<button onclick="FinishEditAsText()" style="color: blue">Finish Edit</button>
 	</div>
@@ -1711,15 +1718,17 @@
 	
 	<div id="importFromText" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 100%">
 		<h1>Import a Group from Text:</h1>
+
+		<div style="width: 95%; margin: auto;">
+			<h3 style="text-align: left;">Copy terms from EXCEL or similar program.  </h3>
+			<h5 style="text-align: left;">Be sure that columns are separated by tabs and rows by retuns.  </h5>
+			<h5 style="text-align: left;">Add the name of the group as the first line.  </h5>
+			<h5 style="text-align: left;">Add the name of each set before its terms.  </h5>
+			<h5 style="text-align: left;">Leave an additional new line after each set (before the next set's name).  </h5>
 		
-		<h3 style="text-align: left;">Copy terms from EXCEL or similar program.  </h3>
-		<h5 style="text-align: left;">Be sure that columns are separated by tabs and rows by retuns.  </h5>
-		<h5 style="text-align: left;">Add the name of the group as the first line.  </h5>
-		<h5 style="text-align: left;">Add the name of each set before its terms.  </h5>
-		<h5 style="text-align: left;">Leave an additional new line after each set (before the next set's name).  </h5>
-		
-		<textarea style="width: 100%; height: 40%">
-		</textarea>
+			<textarea>
+			</textarea>
+		</div>
 		
 		<button onclick="FinishTextImport()" style="color: blue">Finish Import</button>
 	</div>

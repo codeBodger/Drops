@@ -1,4 +1,4 @@
-Version v1.0.0-alpha.4 2022-11-24 17:03:53 UTC
+Version v1.0.0-alpha.4 2022-11-24 18:11:28 UTC
 
 # Installing the App
 1. To install the app for yourself, you will first need to create a
