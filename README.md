@@ -1,4 +1,4 @@
-Version v1.0.0-alpha.4 2022-11-24 19:33:00 UTC
+Version v1.0.0-alpha.4 2022-11-24 19:37:57 UTC
 
 # Installing the App
 - Note: This does not actually install anything anywhere.  It is simply a way (the
@@ -30,7 +30,8 @@ again.
 ## Using Your Password
 - Without a password, you cannot use the app.
 - You must type your password in before using the app.
-- You will stay logged in until you press log out in the main menu.  
+- You will stay logged in until you press log out in the main menu, or change your
+password (in this case, it may still appear that you're logged in, but you won't be).
 
 # Feature Requests, Bug Reports, Questions, etc.
 - Please request features, report bugs, ask questions, etc in the

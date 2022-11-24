@@ -28,6 +28,7 @@ while true; do
   if [ "$pswd1" = "$pswd2" ]; then
     hash=$(echo "$pswd1" | sha256sum)
     cat <<< "$hash" > password.hash
+		cat <<< "" > keys.hash
     echo "Password set!"
     break
   else
