@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-24 16:58:42 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-24 17:03:53 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -225,20 +225,20 @@
 		
 			if (localVersion != githubVersion)
 				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
-					`<h4>There's a new unstable release!</h4>
-	 	<h3>Check README.md for help about updates.</h3>`
+					`<tr><td colspan="2"><h4>There's a new unstable release!</h4></td></tr>
+	 	<tr><td colspan="2"><h3>Check README.md for help about updates.</h3></td></tr>`
 				);
 			if (versionCompare(localVersion, releases[1] || ""))
 				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
-					`<h4>There's a new alpha release!</h4>`
+					`<tr><td colspan="2"><h3>There's a new alpha release!</h4></td></tr>`
 				);
 			if (versionCompare(localVersion, releases[2] || ""))
 				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
-					`<h4>There's a new beta release!</h4>`
+					`<tr><td colspan="2"><h2>There's a new beta release!</h4></td></tr>`
 				);
 			if (versionCompare(localVersion, releases[3] || ""))
 				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
-					`<h4>There's a new full release!</h4>`
+					`<tr><td colspan="2"><h1>There's a new full release!</h4></td></tr>`
 				);
 			
 			if (localStorage.getItem("drops-password")) {
