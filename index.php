@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-23 22:39:59 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-24 01:40:13 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -76,7 +76,7 @@
 	<!-- "globals" -->
 	<script>
 		const BEGUN    = 5000000;
-		const MASTERED =   100000;
+		const MASTERED =  100000;
 		
 		const lettersLetters = 7;
 		
@@ -1569,13 +1569,6 @@
 		<br>
 		<button id="loginButton"  onclick="Login()" >Log In</button>
 		<button id="logoutButton" onclick="Logout()">Log Out</button>
-		
-		<br><br>
-		
-		<h3>To do:</h3>
-		<h5>Edit a group</h5>
-		<h5>Sylables</h5>
-
 	</div>
 	
 	
