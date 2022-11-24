@@ -1,5 +1,5 @@
 <html style="height: 100%;">
-<head data-version="Version v1.0.0-alpha.4 2022-11-24 01:40:13 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-24 16:58:42 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -14,6 +14,20 @@
 			margin: 10px 2.5%;
 			padding: 0px;
 			cursor: pointer;
+		}
+		.menuButton {
+			width: 100%;
+			margin: 0px;
+		}
+		.answerButton {
+			height: 5vw;
+		}
+		.letterButton {
+			height: 8vw;
+		}
+
+		.menuTd {
+			padding: 1%
 		}
 		
 		input {
@@ -56,14 +70,6 @@
 			width: 100%;
 			margin-block-start: 0.65em;
 			margin-block-end: 0.65em;
-		}
-		
-		.answerButton {
-			height: 5vw;
-		}
-		
-		.letterButton {
-			height: 8vw;
 		}
 	</style>
 	
@@ -204,62 +210,64 @@
 	</script>
 
 	<!-- startup -->
-	<script>(async function() {
-		var localVersion = document.getElementsByTagName("head")[0].getAttribute("data-version");
-		var githubVersion;
-		await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/README.md")
-			.then((response) => response.text())
-			.then((data) => githubVersion = data.split("\n")[0]);
-
-		var releases;
-		await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/.releases")
-			.then((response) => response.text())
-			.then((data) => releases = data.split("\n"));
+	<script>
+		async function startup() {
+			var localVersion = document.getElementsByTagName("head")[0].getAttribute("data-version");
+			var githubVersion;
+			await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/README.md")
+				.then((response) => response.text())
+				.then((data) => githubVersion = data.split("\n")[0]);
 	
-		if (localVersion != githubVersion)
-			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-				`<h4>There's a new unstable release!</h4>
-	 <h3>Check README.md for help about updates.</h3>`
-			);
-		if (versionCompare(localVersion, releases[1] || ""))
-			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-				`<h4>There's a new alpha release!</h4>`
-			);
-		if (versionCompare(localVersion, releases[2] || ""))
-			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-				`<h4>There's a new beta release!</h4>`
-			);
-		if (versionCompare(localVersion, releases[3] || ""))
-			document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-				`<h4>There's a new full release!</h4>`
-			);
+			var releases;
+			await fetch("https://raw.githubusercontent.com/codeBodger/Quiz/main/.releases")
+				.then((response) => response.text())
+				.then((data) => releases = data.split("\n"));
 		
-		if (localStorage.getItem("drops-password")) {
-			if (localStorage.getItem("drops-password") != "haha") {
-				document.getElementById("loginButton" ).remove();
+			if (localVersion != githubVersion)
+				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
+					`<h4>There's a new unstable release!</h4>
+	 	<h3>Check README.md for help about updates.</h3>`
+				);
+			if (versionCompare(localVersion, releases[1] || ""))
+				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
+					`<h4>There's a new alpha release!</h4>`
+				);
+			if (versionCompare(localVersion, releases[2] || ""))
+				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
+					`<h4>There's a new beta release!</h4>`
+				);
+			if (versionCompare(localVersion, releases[3] || ""))
+				document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
+					`<h4>There's a new full release!</h4>`
+				);
+			
+			if (localStorage.getItem("drops-password")) {
+				if (localStorage.getItem("drops-password") != "haha") {
+					document.getElementById("loginButton" ).remove();
+					document.getElementById("logoutButton").setAttribute("colspan", "2");
+				}
+				else {
+					document.getElementById("loginButton" ).getElementsByTagName("button")[0].style.color = 'red';
+					document.getElementById("loginButton" ).getElementsByTagName("button")[0].style.backgroundColor = 'ffaaaa';
+					document.getElementById("logoutButton").parentElement.insertAdjacentHTML("afterend",
+						`<tr><td colspan="2"><h3 style="color: red;">Login Failed!!</h3></td></tr>`
+					);
+				}
 			}
 			else {
-				document.getElementById("loginButton" ).style.width = '44.5%';
-				document.getElementById("loginButton" ).style.color = 'red';
-				document.getElementById("loginButton" ).style.backgroundColor = 'ffaaaa';
-				document.getElementById("logoutButton").style.width = '44.5%';
-				document.getElementById("logoutButton").insertAdjacentHTML("afterend",
-					`<h3 style="color: red;">Login Failed!!<h3>`
-				);
+				document.getElementById("logoutButton").remove();
+				document.getElementById("loginButton" ).setAttribute("colspan", "2");
 			}
+	
+			await fetch("data.json")
+				.then((response) => response.json())
+				.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
+			setVar("savedGroups", localStorage.getItem("drops-data").slice(1, -1));
+	
+			document.getElementById("loading").remove();
+			document.getElementById("mainMenue").style.visibility = 'visible';
 		}
-		else {
-			document.getElementById("logoutButton").remove();
-		}
-
-		await fetch("data.json")
-			.then((response) => response.json())
-			.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
-		setVar("savedGroups", localStorage.getItem("drops-data").slice(1, -1));
-
-		document.getElementById("loading").remove();
-		document.getElementById("mainMenue").style.visibility = 'visible';
-	})()</script>
+	</script>
 
 	<!-- set, group, and term functions -->
 	<script>
@@ -1550,25 +1558,37 @@
 	<h1 id="loading">Loading...</h1>
 	
 	<div id="mainMenue" style="visibility: hidden; position: absolute; top: 0px; left: 0px;">
-		<h1>Choose an action:</h1>
+		<h1>Choose an Action:</h1>
 
-		<button onclick="StudyGroup()">Study a Group</button>
-		<br>
-		<button onclick="NewGroup()">Create a Group</button>
-		<br>
-		<button onclick="EditGroup()" style="width: 44.5%; color: red; background-color: #ffaaaa">Edit a Group</button>
-		<button onclick="EditAsText()" style="width: 44.5%">Edit a Group as Text</button>
-		<br>
-		<button onclick="ExportGroup()" style="width: 44.5%;">Export a Group</button>
-		<button onclick="ExportToText()" style="width: 44.5%;">Export a Group to Text</button>
-		<br>
-		<button onclick="ImportGroup()" style="width: 44.5%;">Import a Group</button>
-		<button onclick="ImportFromText()" style="width: 44.5%;">Import a Group from Text</button>
-		<br>
-		<button onclick="DeleteGroup()">Delete a Group</button>
-		<br>
-		<button id="loginButton"  onclick="Login()" >Log In</button>
-		<button id="logoutButton" onclick="Logout()">Log Out</button>
+		<table style="width: 95%; margin: auto; table-layout: fixed">
+			<tr>
+				<td class="menuTd" colspan="2"><button class="menuButton" onclick="StudyGroup()">Study a Group</button></td>
+			</tr>
+			<tr>
+				<td class="menuTd" colspan="2"><button class="menuButton" onclick="NewGroup()">Create a Group</button></td>
+			</tr>
+			<tr>
+				<td class="menuTd"><button class="menuButton" onclick="EditGroup()" style="color: red; background-color: #ffaaaa">Edit a Group</button></td>
+				<td class="menuTd"><button class="menuButton" onclick="EditAsText()">Edit a Group as Text</button></td>
+			</tr>
+			<tr>
+				<td class="menuTd"><button class="menuButton" onclick="ExportGroup()">Export a Group</button></td>
+				<td class="menuTd"><button class="menuButton" onclick="ExportToText()">Export a Group to Text</button></td>
+			</tr>
+			<tr>
+				<td class="menuTd"><button class="menuButton" onclick="ImportGroup()">Import a Group</button></td>
+				<td class="menuTd"><button class="menuButton" onclick="ImportFromText()">Import a Group from Text</button></td>
+			</tr>
+			<tr>
+				<td class="menuTd" colspan="2"><button class="menuButton" onclick="DeleteGroup()">Delete a Group</button></td>
+			</tr>
+			<tr>
+				<td class="menuTd" id="loginButton" ><button class="menuButton" onclick="Login()" >Log In</button></td>
+				<td class="menuTd" id="logoutButton"><button class="menuButton" onclick="Logout()">Log Out</button></td>
+			</tr>
+		</table>
+
+		<script>startup();</script>
 	</div>
 	
 	
