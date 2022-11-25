@@ -1,5 +1,5 @@
 <html>
-<head data-version="Version v1.0.0-alpha.4 2022-11-24 19:37:57 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.4 2022-11-25 16:02:54 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -155,14 +155,21 @@
 			URL.revokeObjectURL(a.href)
 		}
 
-		function serverSave() {
-			fetch("index.php", {
+		async function serverSave() {
+			var pswd;
+			await fetch("index.php", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 				},
 				body: `data=${localStorage.getItem("drops-data")}&key=${localStorage.getItem("drops-password")}`,
-			});
+			})
+				.then((response) => response.text())
+				.then((res) => pswd = res.split("\n").slice(-1)[0]);
+			if (pswd == "haha") {
+				localStorage.setItem("drops-password", "haha");
+				location.reload();
+			}
 		}
 
 		function save() {
@@ -1771,6 +1778,7 @@
 				fclose($datafile);
 				break;
 			}
+			else { echo "haha"; }
 		}
 		fclose($keyHashFile);
 	}
@@ -1791,9 +1799,7 @@
 			else { echo "haha"; }
 			fclose($pswdfile);
 		}
-		else {
-			echo "haha";
-		}
+		else { echo "haha"; }
 		fclose($keyHashFile);
 	}
 

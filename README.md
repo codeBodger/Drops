@@ -1,4 +1,4 @@
-Version v1.0.0-alpha.4 2022-11-24 19:37:57 UTC
+Version v1.0.0-alpha.4 2022-11-25 16:02:54 UTC
 
 # Installing the App
 - Note: This does not actually install anything anywhere.  It is simply a way (the
@@ -14,7 +14,7 @@ anywhere, you just need to log in to your repl.it account and run it (see __Runn
 App__ below).
 
 # Running the App
-- To run the app, simply hit the green `run` button at the top of the screen.  
+- To run the app, simply hit the green `Run` button at the top of the screen.  
 - To view the app larger, press the expand/open in new tab button to the right of the
 mini URL bar.
 
@@ -30,8 +30,8 @@ again.
 ## Using Your Password
 - Without a password, you cannot use the app.
 - You must type your password in before using the app.
-- You will stay logged in until you press log out in the main menu, or change your
-password (in this case, it may still appear that you're logged in, but you won't be).
+- You will stay logged in until you press `Log Out` in the main menu or change your
+password.
 
 # Feature Requests, Bug Reports, Questions, etc.
 - Please request features, report bugs, ask questions, etc in the
