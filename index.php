@@ -1,5 +1,5 @@
 <html>
-<head data-version="Version v1.0.0-alpha.5 2023-01-06 14:24:31 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.5 2023-01-06 17:37:28 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -1076,7 +1076,7 @@
 									term.progress = term.progress*Math.pow(getModeWeight("LETTERS"), 1 - 1/term.term.length);
 									group.consecutiveCorrect = group.consecutiveCorrect % 1;
 									for (let lB of document.getElementsByClassName("letterButton"))
-										if (lB.innerHTML == letterEntered) lB.style.backgroundColor = '#ffaaaa';
+										if (lB.getElementsByTagName("span")[0].innerHTML == letterEntered) lB.style.backgroundColor = '#ffaaaa';
 									return;
 								}
 								break loop;
