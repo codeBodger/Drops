@@ -1,5 +1,5 @@
 <html>
-<head data-version="Version v1.0.0-alpha.4 2023-01-06 13:48:02 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.5 2023-01-06 14:24:31 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
