@@ -1,5 +1,5 @@
 <html>
-<head data-version="Version v1.0.0-alpha.5 2023-01-08 21:06:10 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.0.0-alpha.5 2023-01-08 23:52:30 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -155,7 +155,14 @@
 			URL.revokeObjectURL(a.href)
 		}
 
-		async function serverSave() {
+		async function serverLoad() {
+			await fetch("data.json")
+				.then((response) => response.json())
+				.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
+			setVar("savedGroups", localStorage.getItem("drops-data").slice(1, -1));
+		}
+		
+		async function serverSave(first = true) {
 			var result;
 			await fetch("save.php", {
 				method: "POST",
@@ -165,16 +172,19 @@
 				body: `data=${localStorage.getItem("drops-data")}&key=${localStorage.getItem("drops-password")}`,
 			})
 				.then((response) => response.text())
-				// .then((res) => result = res.split("\n").slice(-1)[0]);
 				.then((res) => result = res);
 			console.log(result);
-			if (result != "success" && !getVar("ignoreNotSignedIn")) {
+			if (result == "haha" && !getVar("ignoreNotSignedIn")) {
 				setVar("ignoreNotSignedIn", confirm(
 					"***Warning: You may not be signed in!***\n" +
 					"Your progress may not be being saved!\n" +
 					"Press OK to ignore, Cancel to keep getting this dialogue." +
 					"If the problem persists after re-logging in, check README.md for bug reporting."
 				))
+			} else
+			if (result != "success" && first) {
+				await serverLoad();
+				serverSave(false);
 			}
 		}
 
@@ -289,11 +299,8 @@
 				document.getElementById("logoutButton").remove();
 				document.getElementById("loginButton" ).setAttribute("colspan", "2");
 			}
-	
-			await fetch("data.json")
-				.then((response) => response.json())
-				.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
-			setVar("savedGroups", localStorage.getItem("drops-data").slice(1, -1));
+
+			await serverLoad();
 	
 			document.getElementById("loading").remove();
 			document.getElementById("mainMenue").style.visibility = 'visible';

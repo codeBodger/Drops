@@ -10,6 +10,7 @@
 
 	$newKey = hash("sha256", sprintf("%d%d%d%d", rand(), rand(), rand(), rand()));
 	foreach ($keyFileHashList as $keyFileHash) {
+		$keyFileHash = explode(" ", $keyFileHash)[0];
 		$auth = ($keyHash == $keyFileHash);
 		if($auth) {
 			$keyHashFile = fopen("keys.hash", "r") or die("Unable to open file!");
@@ -25,7 +26,7 @@
 			$keyHashFile = fopen("keys.hash", "a") or die("Unable to open file!");
 			foreach ($keyFileHashList as $keyFileHash) {
 				if ($keyFileHash == "") { continue; }
-				fwrite($keyHashFile, "$keyFileHash\n");
+				fwrite($keyHashFile, "$keyFileHash templock\n");
 			}
 
 			$newKeyHash = hash("sha256", $newKey);
