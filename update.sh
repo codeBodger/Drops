@@ -12,6 +12,10 @@ if [ -f .releases ]; then
 	rm .releases
 fi
 
+if [ -f index.php ]; then
+	rm index.php
+fi
+
 VERSIONS=$(curl "https://raw.githubusercontent.com/codeBodger/Quiz/main/.releases")
 vType=("1. unstable (likely non-functional)" "2. alpha    (should be functional, but may be buggy)" "3. beta     (functional, but in need of more testing)" "4. full release")
 versions=( )
