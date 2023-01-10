@@ -1,19 +1,24 @@
 <?php
-	$keyHashFile = fopen("keys.hash", "a") or die("Unable to open file!");
-	$newKey = hash("sha256", sprintf("%d%d%d%d", rand(), rand(), rand(), rand()));
-	$newKeyHash = hash("sha256", $newKey);
-	if(file_exists("password.hash")) {
-		$pswdfile = fopen("password.hash", "r") or die("Unable to open file!");
-		$pswdfilehash = fread($pswdfile,filesize("password.hash"));
+	$email = $_POST["email"];
+
+	if(file_exists("${email}_password.hash")) {
+		$pswdfile = fopen("${email}_password.hash", "r") or die("Unable to open file!");
+		$pswdfilehash = fread($pswdfile,filesize("${email}_password.hash"));
+		fclose($pswdfile);
+		
 		$pswd = $_POST["pswd"];
-		$pswdhash = hash("sha256", "$pswd\n");
-		if ("$pswdhash  -\n" == "$pswdfilehash") {
+		$pswdhash = hash("sha256", $pswd);
+		if ("$pswdhash" == "$pswdfilehash") {
+			$newKey = hash("sha256", sprintf("%d%d%d%d", rand(), rand(), rand(), rand()));
+			$newKeyHash = hash("sha256", $newKey);
+			
+			$keyHashFile = fopen("${email}_keys.hash", "a") or die("Unable to open file!");
 			fwrite($keyHashFile, "\n$newKeyHash");
+			fclose($keyHashFile);
+			
 			echo $newKey;
 		}
 		else { echo "haha"; }
-		fclose($pswdfile);
 	}
-	else { echo "haha"; }
-	fclose($keyHashFile);
+	else { echo "signup"; }
 ?>

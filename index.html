@@ -1,5 +1,5 @@
 <html>
-<head data-version="Version v1.0.0-alpha.5 2023-01-08 23:52:30 UTC"> <!-- set by pre-commit -->
+<head data-version="Version v1.1.0-alpha 2023-01-10 16:43:29 UTC"> <!-- set by pre-commit -->
 	<title>Quiz</title>
 
 	<style>
@@ -156,9 +156,17 @@
 		}
 
 		async function serverLoad() {
-			await fetch("data.json")
-				.then((response) => response.json())
-				.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
+			try {
+				await fetch(`${localStorage.getItem("email")}_data.json`)
+					.then((response) => response.json())
+					.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
+			}
+			catch {
+				await fetch(`data.json`)
+					.then((response) => response.json())
+					.then((data) => localStorage.setItem("drops-data", JSON.stringify(data)));
+				serverSave();
+			}
 			setVar("savedGroups", localStorage.getItem("drops-data").slice(1, -1));
 		}
 		
@@ -169,7 +177,10 @@
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 				},
-				body: `data=${localStorage.getItem("drops-data")}&key=${localStorage.getItem("drops-password")}`,
+				body: 
+					`data=${encodeURIComponent(localStorage.getItem("drops-data"))}&` +
+					`email=${encodeURIComponent(localStorage.getItem("email"))}&` +
+					`key=${encodeURIComponent(localStorage.getItem("login-key"))}`,
 			})
 				.then((response) => response.text())
 				.then((res) => result = res);
@@ -194,15 +205,19 @@
 		}
 
 		async function addSecureKey(password) {
+			var result;
 			await fetch("signin.php", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 				},
-				body: `pswd=${password}`,
+				body: 
+					`email=${encodeURIComponent(localStorage.getItem("email"))}&` +
+					`pswd=${encodeURIComponent(password)}`,
 			})
 				.then((response) => response.text())
-				.then((res) => localStorage.setItem("drops-password", res.split("\n").slice(-1)[0]));
+				.then((res) => result = res.split("\n").slice(-1)[0]);
+			return result;
 		}
 
 		async function removeSecureKey() {
@@ -211,7 +226,9 @@
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 				},
-				body: `key=${localStorage.getItem("drops-password")}`,
+				body: 
+					`email=${encodeURIComponent(localStorage.getItem("email"))}&` +
+					`key=${encodeURIComponent(localStorage.getItem("login-key"))}`,
 			});
 		}
 
@@ -242,10 +259,12 @@
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",					
 				},
-				body: `key=${localStorage.getItem("drops-password")}`,
+				body: 
+					`email=${encodeURIComponent(localStorage.getItem("email"))}&` +
+					`key=${encodeURIComponent(localStorage.getItem("login-key"))}`,
 			})
 				.then((response) => response.text())
-				.then((data) => localStorage.setItem("drops-password", data));
+				.then((data) => localStorage.setItem("login-key", data));
 		}
 	</script>
 
@@ -281,9 +300,10 @@
 					`<tr><td colspan="2"><h1>There's a new full release!</h4></td></tr>`
 				);
 		
-			if (localStorage.getItem("drops-password")) {
+			if (localStorage.getItem("login-key")) {
+				document.getElementById("signupButton").remove();
 				await checkKey();
-				if (localStorage.getItem("drops-password") != "haha") {
+				if (localStorage.getItem("login-key") != "haha") {
 					document.getElementById("loginButton" ).remove();
 					document.getElementById("logoutButton").setAttribute("colspan", "2");
 				}
@@ -297,7 +317,6 @@
 			}
 			else {
 				document.getElementById("logoutButton").remove();
-				document.getElementById("loginButton" ).setAttribute("colspan", "2");
 			}
 
 			await serverLoad();
@@ -1571,7 +1590,7 @@
 		}
 	</script>
 
-	<!-- Logging in and Logging out -->
+	<!-- Logging in, Logging out, and Signing up -->
 	<script>
 		function Login() {
 			document.getElementById("mainMenue").style.visibility = 'hidden';
@@ -1581,16 +1600,81 @@
 		}
 
 		async function FinishLogin() {
-			let password = document.getElementById("login").getElementsByTagName("input")[0].value;
-			await addSecureKey(password);
+			let email = document.getElementById("login").getElementsByTagName("input")[0].value;
+			let password = document.getElementById("login").getElementsByTagName("input")[1].value;
+			localStorage.setItem("email", email);
+			var result = await addSecureKey(password);
+			if (result == "signup") {
+				Login();
+				document.getElementById("login").getElementsByTagName("button").insertAdjacentHTML("afterend",
+					`<p style="color: red;">This email does not have an associated account.</p>\n` +
+					`<button onclick="Signup()">Sign Up</button>`
+				);
+				return;
+			}
+			localStorage.setItem("login-key", result);
 			location.reload();
 		}
 
 		async function Logout() {
 			await removeSecureKey();
-			localStorage.removeItem("drops-password");
+			localStorage.removeItem("login-key");
 			location.reload();
 		}
+
+		function Signup() {
+			document.getElementById("mainMenue").style.visibility = 'hidden';
+			document.getElementById("login").style.visibility = 'hidden';
+			
+			loadOldElementState("signup");
+			document.getElementById("signup").style.visibility = 'visible';
+		}
+
+		async function FinishSignup() {
+			let password = document.getElementById("signup").getElementsByTagName("input")[1].value;
+			let email = document.getElementById("signup").getElementsByTagName("input")[0].value;
+			if (password != document.getElementById("signup").getElementsByTagName("input")[2].value) {
+				Signup();
+				document.getElementById("signup").getElementsByTagName("button")[0].insertAdjacentHTML("beforebegin",
+					`<p style="color: red;">Your two passwords must match.</p>`
+				);
+				return;
+			}
+
+			var result;
+			await fetch("pswd.php", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+				},
+				body: 
+					`email=${encodeURIComponent(email)}&` +
+					`pswd=${encodeURIComponent(password)}`,
+			})
+				.then((response) => response.text())
+				.then((res) => result = res);
+
+			switch (result) {
+				case "exists":
+					Signup();
+					document.getElementById("signup").getElementsByTagName("button")[0].insertAdjacentHTML("beforebegin",
+						`<p style="color: red;">There is already an account with that email!</p>`
+					);
+				break;
+				
+				case "success":
+					location.reload();
+				break;
+
+				default:
+					Signup();
+					document.getElementById("signup").getElementsByTagName("button").insertAdjacentHTML("beforebegin",
+						`<p style="color: red;">An unknown error occurred.  Try again later.</p>`
+					);
+				break;
+			}
+		}
+		
 	</script>
 
 	<h1 id="loading">Loading...</h1>
@@ -1623,6 +1707,7 @@
 			<tr>
 				<td class="menuTd" id="loginButton" ><button class="menuButton" onclick="Login()" >Log In</button></td>
 				<td class="menuTd" id="logoutButton"><button class="menuButton" onclick="Logout()">Log Out</button></td>
+				<td class="menuTd" id="signupButton"><button class="menuButton" onclick="Signup()">Sign Up</button></td>
 			</tr>
 		</table>
 
@@ -1778,11 +1863,25 @@
 
 	
 	<div id="login" style="visibility: hidden; position: absolute; top: 0px; left: 0px;">
+		<h1>Email:</h1>
+		<input type="email">
 		<h1>Password:</h1>
 		<input type="password">
 		<button onclick="FinishLogin();">Log In</button>
 		
 		<script> saveElementState("login"); </script>
+	</div>
+
+	<div id="signup" style="visibility: hidden; position: absolute; top: 0px; left: 0px;">
+		<h1>Email:</h1>
+		<input type="email">
+		<h1>Password:</h1>
+		<input type="password">
+		<h1>Confirm Password:</h1>
+		<input type="password">
+		<button onclick="FinishSignup();">Sign Up</button>
+		
+		<script> saveElementState("signup"); </script>
 	</div>
 	
 </body>

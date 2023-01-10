@@ -1,4 +1,4 @@
-Version v1.0.0-alpha.5 2023-01-08 23:52:30 UTC
+Version v1.1.0-alpha 2023-01-10 16:43:29 UTC
 
 # Installing the App
 - Note: This does not actually install anything anywhere.  It is simply a way (the
@@ -9,7 +9,7 @@ prohibiting the instalation of software.
 2. Then, go to [this link](https://replit.com/@RowanAckerman/Quiz) and click the blue
 `Fork Repl` button on the right side of the screen. This will make a copy of the app in
 your account.
-3. Once you make a password (see __Passwords__ below), you will be able to use the app
+3. Once you make an account (see __Accounts__ below), you will be able to use the app
 anywhere, you just need to log in to your repl.it account and run it (see __Running the
 App__ below).
 
@@ -17,21 +17,14 @@ App__ below).
 - To run the app, simply hit the green `Run` button at the top of the screen.  
 - To view the app larger, press the expand/open in new tab button to the right of the
 mini URL bar.
+- The link that this takes you to can also be used from anywhere, if you can't log in to
+repl.it.  
 
-# Passwords
-## Creating and Resetting a Password
-1. To create or change your password, click the "Shell" tab in the right hand pannel.
-2. Type `./pswd.sh` and press enter.
-3. Type you current password as prompted and press enter (if you don't have one, you
-won't be prompted to do this).
-4. Then type a new password twice as prompted.  
-- If you forget your password, you can simply delete `password.hash` and run `./pswd.sh`
-again.
-## Using Your Password
-- Without a password, you cannot use the app.
-- You must type your password in before using the app.
-- You will stay logged in until you press `Log Out` in the main menu or change your
-password.
+# Accounts
+- Without an account, you cannot use the app.
+- You must log in before using the app.
+- You will stay logged in until you press `Log Out` in the main menu.
+- I need to implement an email password reset functionality.
 
 # Feature Requests, Bug Reports, Questions, etc.
 - Please request features, report bugs, ask questions, etc in the
